@@ -1,6 +1,11 @@
 <template>
   <div class="wrapper-todo">
-    <div class="title has-text-centered">My ToDo List!</div>
+    <div
+      class="title has-text-centered txt-color"
+      :style="{ color: `hsl(${x}, 80%, 50%)` }"
+    >
+      My ToDo List!
+    </div>
     <form @submit.prevent="addTodo">
       <div class="field is-grouped mb-5">
         <p class="control is-expanded">
@@ -24,6 +29,7 @@
       :key="todo.id"
       class="card mb-5"
       :class="{ 'has-background-success-light': todo.done }"
+      @mousemove="onMousemove"
     >
       <div class="card-content">
         <div class="content">
@@ -70,6 +76,16 @@ import {
   orderBy,
 } from "firebase/firestore";
 import { db } from "@/firebase";
+
+/**
+ * animation
+ */
+
+const x = ref(0);
+
+const onMousemove = (e) => {
+  x.value = e.clientX;
+};
 
 /**
  * firebase ref
@@ -140,6 +156,10 @@ const toggleDone = (id) => {
 
 <style>
 @import "bulma/css/bulma.min.css";
+
+.txt-color {
+  transition: 0.5s;
+}
 
 .wrapper-todo {
   max-width: 400px;
